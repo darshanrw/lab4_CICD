@@ -1,40 +1,41 @@
 trigger:
- - main # Trigger pipeline on changes to the 'main' branch
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
 stages:
- - stage: Build
-   displayName: "Build Stage"
-   jobs:
-     - job: Build
-       displayName: "Build Job"
-       pool:
-         vmImage: "ubuntu-latest"
-       steps:
-         - script: |
-             npm install
-           displayName: "Install Dependencies"
- - stage: Test
-   displayName: "Test Stage"
-   dependsOn: Build # Ensure this stage runs after Build
-   jobs:
-     - job: Test
-       displayName: "Test Job"
-       pool:
-         vmImage: "ubuntu-latest"
-       steps:
-         - script: |
-             npm test
-           displayName: "Run Unit Tests"
- - stage: Deploy
-   displayName: "Deploy Stage"
-   dependsOn: Test # Ensure this stage runs after Test
-   jobs:
-     - job: Deploy
-       displayName: "Deploy Job"
-       pool:
-         vmImage: "windows-latest"
-       steps:
-         - task: AzureFunctionApp@1
-           inputs:
-             azureSubscription: "dbserver1.mysql.database.azure.com>" # Replace with your Azure Service Connection name
-             appName: "YourFunctionAppName" # Replace with your Azure Function App name
-             package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: Build
+    displayName: 'Install Dependencies'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x' # Specify Node.js version
+    - script: |
+        npm install
+      displayName: 'Install Dependencies'
+
+- stage: Test
+  displayName: 'Test Stage'
+  jobs:
+  - job: Test
+    displayName: 'Run Unit Tests'
+    steps:
+    - script: |
+        echo "No tests available"
+      displayName: 'Placeholder for Unit Tests'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy to Azure Function'
+    steps:
+    - task: AzureFunctionApp@1
+      inputs:
+        azureSubscription: 'Azure for Students'
+        appName: 'azure-function-app'
+        package: '$(System.DefaultWorkingDirectory)/**/*.zip'

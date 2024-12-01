@@ -1,41 +1,59 @@
 trigger:
-- main
+- main  # Adjust to the branch you want to trigger the pipeline on
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
+
+variables:
+  azureSubscription: 'Azure for Students'  # Replace with your Azure Service Connection name
+  appName: 'azure-function-app'                  # Replace with your Azure Function App name
+  resourceGroupName: 'databaseautomation'      # Replace with your Azure Resource Group name
+  packagePath: '$(System.DefaultWorkingDirectory)/**/*.zip'
 
 stages:
 - stage: Build
   displayName: 'Build Stage'
   jobs:
   - job: Build
-    displayName: 'Install Dependencies'
+    displayName: 'Build the Azure Function App'
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '16.x' # Specify Node.js version
+        versionSpec: '16.x'  # Ensure the Node.js version matches your app's requirements
     - script: |
         npm install
-      displayName: 'Install Dependencies'
+        npm run build
+      displayName: 'Install dependencies and build the app'
 
 - stage: Test
   displayName: 'Test Stage'
+  dependsOn: Build
   jobs:
   - job: Test
-    displayName: 'Run Unit Tests'
+    displayName: 'Run Tests'
     steps:
     - script: |
-        echo "No tests available"
-      displayName: 'Placeholder for Unit Tests'
+        npm test
+      displayName: 'Run unit tests'
 
 - stage: Deploy
   displayName: 'Deploy Stage'
+  dependsOn: Test
   jobs:
   - job: Deploy
-    displayName: 'Deploy to Azure Function'
+    displayName: 'Deploy Function App to Azure'
     steps:
-    - task: AzureFunctionApp@1
+    - task: ArchiveFiles@2
       inputs:
-        azureSubscription: 'Azure for Students'
-        appName: 'azure-function-app'
-        package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'  # Package the built app
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/functionapp.zip'
+        replaceExistingArchive: true
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: '$(azureSubscription)'
+        appType: 'functionApp'                                # Specifies deployment to an Azure Function
+        appName: '$(appName)'
+        resourceGroupName: '$(resourceGroupName)'             # Ensure the resource group matches the app
+        package: '$(Build.ArtifactStagingDirectory)/functionapp.zip'

@@ -12,6 +12,9 @@ stages:
   - job: Build
     displayName: 'Install Dependencies'
     steps:
+    - checkout: self
+      submodules: true
+      persistCredentials: true
     - task: NodeTool@0
       inputs:
         versionSpec: '16.x'  # Specify the Node.js version
@@ -19,6 +22,7 @@ stages:
         cd MyApp
         npm install --save-dev chai
       displayName: 'Install NPM Packages'
+
  
 # Test Stage
 - stage: Test

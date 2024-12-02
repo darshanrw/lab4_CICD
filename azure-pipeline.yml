@@ -37,17 +37,17 @@ stages:
         npm test
       displayName: 'Install Dependencies and Run Jest Tests'
  
-# Deploy Stage
-# - stage: Deploy
-#   displayName: 'Deploy Stage'
-#   dependsOn: Test
-#   jobs:
-#   - job: Deploy
-#     displayName: 'Deploy to Azure'
-#     steps:
-#     - task: AzureFunctionApp@1
-#       inputs:
-#         azureSubscription: 'YourAzureServiceConnection' # Replace with your Azure Service Connection name
-#         appType: functionApp
-#         appName: 'YourFunctionAppName'                 # Replace with your Azure Function App name
-#         package: '$(System.DefaultWorkingDirectory)/MyFunctionApp'
+Deploy Stage
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Test
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy to Azure'
+    steps:
+    - task: AzureFunctionApp@1
+      inputs:
+        azureSubscription: 'test' # Replace with your Azure Service Connection name
+        appType: functionApp
+        appName: 'App1'                 # Replace with your Azure Function App name
+        package: '$(System.DefaultWorkingDirectory)/MyFunctionApp'

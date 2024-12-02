@@ -1,7 +1,7 @@
 const httpFunction = require('../index'); // Adjust the path if needed
 
 describe('HTTP Trigger Function', () => {
-    test('should return 200 with a greeting', async () => {
+    it('should return 200 with a greeting', async () => {  // Use `it` instead of `test`
         const context = { 
             log: jest.fn(),
             res: {} // Add the res object to the context for the function to populate
@@ -14,7 +14,7 @@ describe('HTTP Trigger Function', () => {
         expect(context.res.body).toBe('Hello, Azure!');
     });
 
-    test('should return 200 with default greeting if no name is provided', async () => {
+    it('should return 200 with default greeting if no name is provided', async () => {  // Use `it` instead of `test`
         const context = { 
             log: jest.fn(),
             res: {} // Add the res object to the context

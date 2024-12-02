@@ -17,7 +17,7 @@ stages:
         versionSpec: '16.x'  # Specify the Node.js version
     - script: |
         cd MyApp
-        npm install
+        npm install --save-dev mocha
       displayName: 'Install NPM Packages'
  
 # Test Stage

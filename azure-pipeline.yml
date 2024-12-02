@@ -37,7 +37,7 @@ stages:
         npm test
       displayName: 'Install Dependencies and Run Jest Tests'
  
-Deploy Stage
+# Deploy Stage
 - stage: Deploy
   displayName: 'Deploy Stage'
   dependsOn: Test

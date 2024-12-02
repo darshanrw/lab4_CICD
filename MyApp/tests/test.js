@@ -1,14 +1,23 @@
-const { expect } = require('chai');
 const httpFunction = require('../index');
  
-describe('HTTP trigger test', () => {
-    it('should return 200 with a greeting', async () => {
-        const context = { log: () => {} };
-        const req = { query: { name: "Azure" } };
+describe('HTTP Trigger Function', () => {
+    test('should return 200 with a greeting', async () => {
+        const context = { log: jest.fn() };
+        const req = { query: { name: 'Azure' } };
  
         await httpFunction(context, req);
  
-        expect(context.res.status).to.equal(200);
-        expect(context.res.body).to.equal('Hello, Azure!');
+        expect(context.res.status).toBe(200);
+        expect(context.res.body).toBe('Hello, Azure!');
+    });
+ 
+    test('should return 200 with default greeting if no name is provided', async () => {
+        const context = { log: jest.fn() };
+        const req = {};
+ 
+        await httpFunction(context, req);
+ 
+        expect(context.res.status).toBe(200);
+        expect(context.res.body).toBe('Hello, world!');
     });
 });

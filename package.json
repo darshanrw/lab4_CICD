@@ -1,6 +1,13 @@
 {
+  "name": "MyApp",
+  "version": "1.0.0",
+  "description": "Azure Function App",
+  "main": "index.js",
+  "scripts": {
+      "test": "jest"
+  },
+  "dependencies": {},
   "devDependencies": {
-    "chai": "^5.1.2",
-    "mocha": "^10.8.2"
+      "jest": "^29.6.1"
   }
 }

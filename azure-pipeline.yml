@@ -14,7 +14,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '16.x'  # Specify Node.js version
+        versionSpec: '16.x'  # Specify the Node.js version
     - script: |
         cd MyApp
         npm install
@@ -33,10 +33,11 @@ stages:
         versionSpec: '16.x'
     - script: |
         cd MyApp
+        npm install
         npm test
-      displayName: 'Run Mocha Unit Tests'
+      displayName: 'Install Dependencies and Run Jest Tests'
  
-# # Deploy Stage
+# Deploy Stage
 # - stage: Deploy
 #   displayName: 'Deploy Stage'
 #   dependsOn: Test
@@ -48,5 +49,5 @@ stages:
 #       inputs:
 #         azureSubscription: 'YourAzureServiceConnection' # Replace with your Azure Service Connection name
 #         appType: functionApp
-#         appName: 'app1'                 # Replace with your Azure Function App name
+#         appName: 'YourFunctionAppName'                 # Replace with your Azure Function App name
 #         package: '$(System.DefaultWorkingDirectory)/MyFunctionApp'

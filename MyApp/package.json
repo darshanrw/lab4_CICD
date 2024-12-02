@@ -1,0 +1,14 @@
+{
+    "name": "app1",
+    "version": "1.0.0",
+    "description": "Azure Function App",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha tests/test.js"
+    },
+    "dependencies": {
+        "chai": "^4.3.6",
+        "mocha": "^10.2.0"
+    },
+    "devDependencies": {}
+}

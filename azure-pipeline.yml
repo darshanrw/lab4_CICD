@@ -17,7 +17,7 @@ stages:
         versionSpec: '16.x'  # Specify the Node.js version
     - script: |
         cd MyApp
-        npm install --save-dev mocha
+        npm install --save-dev chai
       displayName: 'Install NPM Packages'
  
 # Test Stage
@@ -33,7 +33,7 @@ stages:
         versionSpec: '16.x'
     - script: |
         cd MyApp
-        npm install
+        npm install --save-dev chai
         npm test
       displayName: 'Install Dependencies and Run Jest Tests'
  

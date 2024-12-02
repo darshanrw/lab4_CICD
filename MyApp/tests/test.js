@@ -1,29 +1,31 @@
 const httpFunction = require('../index'); // Adjust the path if needed
+const chai = require('chai');
+const expect = chai.expect; // Use Chai's expect
 
 describe('HTTP Trigger Function', () => {
-    it('should return 200 with a greeting', async () => {  // Use `it` instead of `test`
+    it('should return 200 with a greeting', async () => {
         const context = { 
-            log: jest.fn(),
-            res: {} // Add the res object to the context for the function to populate
+            log: function () {},
+            res: {}
         };
         const req = { query: { name: 'Azure' } };
 
         await httpFunction(context, req);
 
-        expect(context.res.status).toBe(200);
-        expect(context.res.body).toBe('Hello, Azure!');
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal('Hello, Azure!');
     });
 
-    it('should return 200 with default greeting if no name is provided', async () => {  // Use `it` instead of `test`
+    it('should return 200 with default greeting if no name is provided', async () => {
         const context = { 
-            log: jest.fn(),
-            res: {} // Add the res object to the context
+            log: function () {},
+            res: {}
         };
         const req = {}; // No query parameter
 
         await httpFunction(context, req);
 
-        expect(context.res.status).toBe(200);
-        expect(context.res.body).toBe('Hello, world!');
+        expect(context.res.status).to.equal(200);
+        expect(context.res.body).to.equal('Hello, world!');
     });
 });

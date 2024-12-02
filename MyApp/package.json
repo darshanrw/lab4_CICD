@@ -4,11 +4,16 @@
     "description": "Azure Function App",
     "main": "index.js",
     "scripts": {
-        "test": "mocha tests/test.js"
+      "test": "jest"
     },
     "dependencies": {
-        "chai": "^4.3.6",
-        "mocha": "^10.2.0"
+      "chai": "^4.3.6"
     },
-    "devDependencies": {}
-}
+    "devDependencies": {
+      "jest": "^29.5.0"
+    },
+    "jest": {
+      "testEnvironment": "node"
+    }
+  }
+  
